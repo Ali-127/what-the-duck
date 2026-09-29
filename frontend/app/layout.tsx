@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,39 +25,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <Header />
-      <body className="min-h-full flex flex-col">{children}</body>
-      <Footer />
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
-}
-
-export function Header() {
-  return (
-    <nav className="flex items-center justify-between p-10 bg-amber-300">
-      <div className="flex gap-5">
-        <Link href="#" className="hover:underline">
-          Home
-        </Link>
-        <Link href="#" className="hover:underline">
-          About
-        </Link>
-      </div>
-      <Link href="#">
-        What The Duck
-      </Link>
-      <div className="flex gap-5">
-        <Link href="#" className="hover:underline">
-          SignUp
-        </Link>
-        <Link href="#" className="hover:underline">
-          Login
-        </Link>
-      </div>
-    </nav>
-  );
-}
-
-export function Footer() {
-  return <div>Footer</div>;
 }

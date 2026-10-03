@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ProductCard() {
   return (
-    <article className="bg-pink-300 m-5 w-40 h-60 p-5 gap-5 flex flex-col items-center rounded-2xl">
+    <article className="bg-pink-300 m-5 w-40 p-5 gap-5 flex flex-col items-center rounded-2xl">
       <h3>product 1</h3>
       <Image
         src="/products/sunglasses.png"
@@ -15,6 +15,9 @@ export default function ProductCard() {
         <li>feature 2</li>
         <li>feature 3</li>
       </ul>
+        <p>
+          Price: <span className="text-amber-50">13.99$</span>
+        </p>
     </article>
   );
 }

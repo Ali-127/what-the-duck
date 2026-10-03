@@ -1,4 +1,5 @@
 import ProductCard from "@/components/ProductCard";
+import TestimonialCard from "@/components/TestimonialCard";
 import Image from "next/image";
 
 export default function Home() {
@@ -88,11 +89,20 @@ export default function Home() {
           <ProductCard />
           <ProductCard />
         </div>
-        <button className="p-2 bg-white w-30 rounded-2xl self-center my-5 hover:bg-amber-300">
+        <button className="p-2 bg-white w-30 rounded-2xl self-center my-5 hover:bg-amber-300 cursor-pointer">
           See more
         </button>
+      </div>
+
+      {/* Testimonials */}
+      <div className="flex flex-col items-center gap-10 bg-indigo-300 p-15">
+        <h2 className="text-3xl">Testimonials</h2>
+        <div className="flex felx-row gap-10">
+          <TestimonialCard />
+          <TestimonialCard />
+          <TestimonialCard />
+        </div>
       </div>
     </>
   );
 }
-

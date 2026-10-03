@@ -10,6 +10,9 @@ export default function Header() {
         <Link href="about" className="hover:underline">
           About
         </Link>
+        <Link href="about" className="hover:underline">
+          Cart
+        </Link>
       </div>
       <Link href="/">
         What The Duck

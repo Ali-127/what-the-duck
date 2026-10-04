@@ -37,45 +37,52 @@ export default function Home() {
         <div className="flex justify-center gap-30 my-10">
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
           <Image
             src="/logos/louis-vuitton.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="louis-vuitton"
+            className="w-auto h-auto"
           />
         </div>
       </div>

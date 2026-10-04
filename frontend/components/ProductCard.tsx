@@ -9,6 +9,7 @@ export default function ProductCard() {
         width={70}
         height={70}
         alt="sunglasses"
+        className="w-auto h-auto"
       />
       <ul className="self-start">
         <li>feature 1</li>

@@ -6,20 +6,17 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <div className="grid grid-cols-2 place-items-center bg-red-400 gap-20 pt-10">
-        <p className="p-10 w-180 text-3xl">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae
-          ratione nemo, tempore molestiae sapiente soluta accusamus alias, ipsam
-          quasi non qui harum, suscipit ullam autem sit omnis cupiditate?
-          Necessitatibus, ullam. lorem
+      <div className="grid grid-cols-2 place-items-center bg-secondary gap-20">
+        <p className="p-10 w-180 text-5xl text-secondary-foreground">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
         </p>
         <Image
-          src="/white-duck.png"
-          width={300}
-          height={20}
+          src="/hero-duck.png"
+          width={500}
+          height={200}
           alt="White duck"
           loading="eager"
-          className="w-auto h-auto"
+          className="w-auto h-auto rounded-full"
         />
 
         {/* CTA */}

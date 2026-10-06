@@ -24,6 +24,7 @@ import {
   User,
   UserCircle,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -34,8 +35,9 @@ export default function Navbar() {
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-          <ShoppingBag className="h-6 w-6" />
-          <span className="text-xl font-bold">EcomStore</span>
+          {/* <ShoppingBag className="h-6 w-6" /> */}
+          <Image src='/duck-logo.png' height={35} width={35} alt="duck logo"/>
+          <span className="text-xl font-bold">What The Duck</span>
         </Link>
 
         <div className="flex items-center space-x-4">

@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ecom Store",
-  description: "A modern e-commerce store template",
+  title: "What The Duck | Luxury Store For Handsome Ducks",
+  description: "Duck, Duck, Goose... Just Kidding, It's a Store",
 };
 
 export default function RootLayout({

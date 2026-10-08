@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 
+# Load settings from .env
 class Settings(BaseSettings):
   model_config = SettingsConfigDict(env_file=".env", extra="ignore")
   db_url: str

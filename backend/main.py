@@ -1,11 +1,12 @@
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, HTTPException
-from schemas import ProductResponse
+from fastapi import Depends, FastAPI, HTTPException, status
+from schemas import ProductCreate, ProductResponse
 from database import Base, engine, get_db
 from models import Product
 
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 @asynccontextmanager
@@ -40,4 +41,24 @@ async def get_product_id(id: int, db: AsyncSession = Depends(get_db)):
   if product is None:
     raise HTTPException(status_code=404, detail="Product not found")
 
+  return product
+
+# Add a product
+@app.post("/products", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
+async def create_product(payload: ProductCreate, db: AsyncSession = Depends(get_db)):
+  # create product
+  product = Product(**payload.model_dump())
+  db.add(product)
+  
+  try:
+    await db.commit()
+  except IntegrityError as e:
+    # rollback on error
+    await db.rollback()
+
+    raise HTTPException(
+      status_code=status.HTTP_409_CONFLICT,
+      detail=f"Product with that title already exists. {e.orig}"
+    )
+  await db.refresh(product)
   return product

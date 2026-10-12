@@ -8,46 +8,107 @@ export interface Product {
   description?: string;
   category?: string;
 }
+export interface ProductResponse {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  description?: string;
+  category?: string;
+}
+
+export interface ProductCreate {
+  title: string;
+  price: number;
+  image: string;
+  description?: string | null;
+  category?: string | null;
+}
+
+export interface FastAPIError {
+  detail?: string | { msg: string; loc: (string | number)[] }[];
+}
 
 const API_URL = process.env.API_URL;
 
-export async function GET() {
-  // Simulate API delay
-  // await new Promise((resolve) => setTimeout(resolve, 50));
+// Get all products from database
+export async function GET(): Promise<NextResponse> {
+  // fetch products from FastAPI
+  let res: Response;
   try {
-    // fetch products from api
-    const res = await fetch(`${API_URL}/products`);
-
-    const products = await res.json();
-
-    return NextResponse.json(products);
-  } catch (err) {
-    return NextResponse.json({
-      error: err,
-      status: 502,
-    });
+    res = await fetch(`${API_URL}/products`);
+  } catch {
+    return NextResponse.json({ error: "Backend unavailable" }, { status: 502 });
   }
+
+  // Parse the response
+  const data: ProductResponse[] | FastAPIError | null = await res
+    .json()
+    .catch(() => null);
+
+  // Forward non OK response
+  if (!res.ok) {
+    const errorData = data as FastAPIError | null;
+    const detail = errorData?.detail;
+
+    const message =
+      typeof detail === "string"
+        ? detail
+        : Array.isArray(detail)
+          ? detail.map((d) => d.msg).join(", ")
+          : "Failed to fetch products";
+    return NextResponse.json({ error: message }, { status: res.status });
+  }
+
+  // success response
+  return NextResponse.json(data as ProductResponse[], { status: res.status });
 }
 
-// export async function POST(request: Request) {
-// const body = await request.json();
+// Add a product to database
+export async function POST(request: Request): Promise<NextResponse> {
+  let body: ProductCreate;
+  try {
+    // Get fields value from request
+    body = (await request.json()) as ProductCreate;
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
 
-// // Generate new ID
-// const newId = Math.max(...dummyProducts.map((p) => p.id)) + 1;
+  // Forward to FastAPI
+  let res: Response;
+  try {
+    // Send POST request to server
+    res = await fetch(`${API_URL}/products`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    return NextResponse.json({ error: "Backend unavailable" }, { status: 502 });
+  }
 
-// const newProduct: Product = {
-//   id: newId,
-//   title: body.title,
-//   price: parseFloat(body.price),
-//   image:
-//     body.image ||
-//     "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=600&fit=crop&crop=center",
-//   description: body.description,
-//   category: body.category,
-// };
+  // Parse FastAPI response
+  const data: ProductResponse | FastAPIError | null = await res
+    .json()
+    .catch(() => null);
 
-// // In a real app, you'd save to database
-// // dummyProducts.push(newProduct);
+  // Non OK response
+  if (!res.ok) {
+    const errorData = data as FastAPIError | null;
+    const detail = errorData?.detail;
 
-// return NextResponse.json(newProduct, { status: 201 });
-// }
+    const message =
+      typeof detail === "string"
+        ? detail
+        : Array.isArray(detail)
+          ? detail.map((d) => d.msg).join(", ")
+          : "Request failed";
+
+    return NextResponse.json({ error: message }, { status: res.status });
+  }
+
+  // Success response
+  return NextResponse.json(data as ProductResponse, { status: res.status });
+}

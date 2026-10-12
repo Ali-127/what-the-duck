@@ -5,7 +5,7 @@ from schemas import ProductCreate, ProductResponse
 from database import Base, engine, get_db
 from models import Product
 
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -62,3 +62,19 @@ async def create_product(payload: ProductCreate, db: AsyncSession = Depends(get_
     )
   await db.refresh(product)
   return product
+
+
+# Delete a product by ID
+@app.delete("/products/{id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_product(id: int, db: AsyncSession = Depends(get_db)):
+  result = await db.execute(delete(Product).where(Product.id == id))
+  if result.rowcount == 0:  #type:ignore
+    raise HTTPException(
+      status_code=404,
+      detail="Product not found"
+    )
+    
+  await db.commit()
+
+  return None
+    

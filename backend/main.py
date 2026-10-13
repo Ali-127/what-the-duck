@@ -68,6 +68,8 @@ async def create_product(payload: ProductCreate, db: AsyncSession = Depends(get_
 @app.delete("/products/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_product(id: int, db: AsyncSession = Depends(get_db)):
   result = await db.execute(delete(Product).where(Product.id == id))
+
+  # if no rows get affected(No product found)
   if result.rowcount == 0:  #type:ignore
     raise HTTPException(
       status_code=404,

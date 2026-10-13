@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -40,8 +41,27 @@ export default function AdminProductsPage() {
   }, []);
 
   const handleDelete = async (id: number) => {
-    // In a real app, you would implement delete functionality
-    console.log("Delete product:", id);
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.detail ?? "Failed to delete product");
+      }
+
+      if (res.status === 204) {
+        // Delete product from state
+        setProducts((prev) => prev.filter((p) => p.id != id));
+        return;
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   if (loading) {
@@ -124,6 +144,7 @@ export default function AdminProductsPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(product.id)}
+                          disabled={isDeleting}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

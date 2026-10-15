@@ -19,7 +19,7 @@ import { useState } from "react";
 
 const productSchema = z.object({
   title: z.string().min(1, "Product title is required"),
-  price: z.string().min(1, "Price is required"),
+  price: z.number().min(1, "Price is required"),
   image: z.string().url("Please enter a valid URL").optional(),
   description: z.string().optional(),
   category: z.string().optional(),
